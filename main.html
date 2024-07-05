@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4, #fad0c4, #f3e8cb);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .birthdayCard {
+      position: relative;
+      width: 90%;
+      max-width: 300px;
+      aspect-ratio: 4 / 5;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+      transition: transform 0.5s, box-shadow 0.5s;
+    }
+
+    .birthdayCard:hover {
+      transform: perspective(1000px) rotateY(180deg);
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cardFront,
+    .cardInside {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .cardFront {
+      background: linear-gradient(to bottom, #fbc2eb, #a18cd1);
+      text-align: center;
+      transform: rotateY(0deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cardInside {
+      background: linear-gradient(to bottom, #f98c6e, #ffd856, #f98c6e);
+      text-align: center;
+      transform: rotateY(180deg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: scroll;
+    }
+
+    .happy {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 2rem;
+      background-image: linear-gradient(120deg, #00fa81f8, #00f8fc, #ffd856);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textColorChange 1s infinite alternate, textScale 0.6s infinite alternate;
+    }
+
+    .balloons {
+      position: relative;
+      height: 150px;
+      margin: 20px 0;
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .balloon-1,
+    .balloon-2,
+    .balloon-3,
+    .balloon-4 {
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: float 1.5s ease-in-out infinite, wiggle 1s infinite;
+    }
+
+    .balloon-1 {
+      background-color: rgba(255, 40, 90, 0.7);
+      animation-delay: 0s;
+    }
+
+    .balloon-2 {
+      background-color: rgba(9, 215, 160, 0.7);
+      animation-delay: 0.5s;
+    }
+
+    .balloon-3 {
+      background-color: rgba(255, 186, 26, 0.7);
+      animation-delay: 1s;
+    }
+
+    .balloon-4 {
+      background-color: rgba(12, 122, 159, 0.7);
+      animation-delay: 1.5s;
+    }
+
+    .balloon-string {
+      position: absolute;
+      width: 2px;
+      height: 50px;
+      background-color: #666;
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes wiggle {
+      0%,
+      100% {
+        transform: rotate(-5deg);
+      }
+
+      50% {
+        transform: rotate(5deg);
+      }
+    }
+
+    @keyframes textColorChange {
+      0% {
+        color: #4000ff;
+      }
+
+      100% {
+        color: #fd0000;
+      }
+    }
+
+    @keyframes textScale {
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(1.1);
+      }
+    }
+
+    .back {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 2rem;
+      background-image: linear-gradient(120deg, #f98c6e, #ffd856, #f98c6e);
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: textColorChange 1s infinite alternate, textScale 0.5s infinite alternate;
+      margin: 20px;
+    }
+
+    .message {
+      flex: 1;
+      padding: 10px;
+      animation: textFadeIn 1s ease-in;
+      max-height: 80%;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .message::-webkit-scrollbar {
+      display: none;
+    }
+
+    @keyframes textFadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .name {
+      font-weight: bold;
+      margin-top: 30px;
+      animation: textFadeIn 1s ease-in 0.5s;
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: white;
+      border-radius: 50%;
+      animation: starTwinkle 1s infinite ease-in-out;
+    }
+
+    @keyframes starTwinkle {
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, white, transparent);
+      border-radius: 50%;
+      animation: sparkleAnimation 1s forwards;
+    }
+
+    @keyframes sparkleAnimation {
+      0% {
+        opacity: 1;
+        transform: scale(0.5);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="birthdayCard">
+    <div class="stars">
+      <div class="star" style="top: 10%; left: 20%; animation-delay: 0s;"></div>
+      <div class="star" style="top: 30%; left: 40%; animation-delay: 0.5s;"></div>
+      <div class="star" style="top: 50%; left: 60%; animation-delay: 1s;"></div>
+      <div class="star" style="top: 70%; left: 80%; animation-delay: 1.5s;"></div>
+      <div class="star" style="top: 90%; left: 50%; animation-delay: 2s;"></div>
+    </div>
+    <div class="cardFront">
+      <h3 class="happy">HAPPY BIRTHDAY ❤️AHANA ❤️</h3>
+      <div class="balloons">
+        <div class="balloon-1">
+          <div class="balloon-string"></div>
+        </div>
+        <div class="balloon-2">
+          <div class="balloon-string"></div>
+        </div>
+        <div class="balloon-3">
+          <div class="balloon-string"></div>
+        </div>
+        <div class="balloon-4">
+          <div class="balloon-string"></div>
+        </div>
+      </div>
+    </div>
+    <div class="cardInside">
+      <h3 class="back">HAPPY BIRTHDAY</h3>
+      <div class="message">
+        <p>My Dear Love Ahana,</p>
+        <p>First of all Happy Birthday My Puchu!</p>
+        <p>I just want you to know that I love you more than anything or anyone else in this world. I can also say that I love you more than you can think of. I Love You more than myself!</p>
+        <p>From the day we met I can never stop thinking about you.
+          You're the first thought after I open my eyes in the morning.
+          You're the last thought before I fall asleep.
+          You occupy my mind the whole day!</p>
+        <p>I will be forever grateful to Kali Maa for giving me my most precious gift.
+          Destiny brought us together, now its in our hands to carry us forward.
+          Give me the chance to hold your hands for the rest of my life.
+          I don't want to loose you.
+          I will fight with the whole world with you by my side.
+          <br>
+          <i>"Hum duniya se lad lenge✨<br> Par tere bagair nahi🥺❤️"</i></p>
+        <p>Be the childish naughty cute little girl you are.
+          I can't express in words my feelings when I am with you.
+          Right now as you're reading this I am just looking at you and thanking God for giving me the sweetest girl in the world. Your eyes, your stare, your lips, your faces, your voice, your way of talking with me, your holding hands tightly, your tantrums, everything just makes me fall in love with you more and more. My love for you is endless. It has no bounds.</p>
+        <p>I was a sailor of the unknown seas whose ship got wrecked and you're my raft, you changed me, I didn't even know the meaning of love. After you came in my life I finally knew what love is. I had low self esteem. But you changed my views about me, I thought I was not worth anyones time, but you proved me wrong. You picked me up gave shelter, nurtured me, gave me confidence. I feel like I am not as useless as I thought. These are actually my thoughts about me which I never shared before. Infact no one knows these. I can only tell you because you're the one and only closest person to my heart.</p>
+        <p>In the end I want to say that I will be forever yours. I am ready to face all the challenges that are going to come. I just want you. I want you every day, every minute, every second. I want you to be by my side for our whole life. I have already made so many future dreams and I want to fulfill each one of them by holding two hands, one your's and one our baby's!! You will be by my side whatever happens right? Without you my life feels useless. I have connected my whole life, past, present, future with you. You are my CONSTANT. And no one can change the values of a constant right? I Loved You, I Love You and I will Love You in every universe. I LOVE YOU AHANA!
+        </p>
+      </div>
+      <div class="name">- Only Your's Sunrit</div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for sparkle animation
+    const cardInside = document.querySelector('.cardInside');
+
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = `${Math.random() * 100}%`;
+      sparkle.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1000);
+
+      cardInside.appendChild(sparkle);
+    }
+
+    setInterval(createSparkle, 200);
+  </script>
+</body>
+
+</html>
